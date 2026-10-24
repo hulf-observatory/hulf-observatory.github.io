@@ -3,16 +3,16 @@
 const trim = (u) => u.replace(/\/$/, '');
 
 // Spatial Data Repository (map viewer)
-export const MAPS_URL = trim(import.meta.env.VITE_MAPS_URL || 'https://maps.hyderabad.urbanobservatory.in');
+export const MAPS_URL = trim(import.meta.env.VITE_MAPS_URL || 'https://hyderabad.urbanobservatory.in/maps');
 
 // City Timeline (archive maps side by side); keeps its trailing slash: it is linked as-is
-export const TIMELINE_URL = trim(import.meta.env.VITE_TIMELINE_URL || 'https://timeline.hyderabad.urbanobservatory.in') + '/';
+export const TIMELINE_URL = trim(import.meta.env.VITE_TIMELINE_URL || 'https://hyderabad.urbanobservatory.in/timeline') + '/';
 
 // The open-data site (catalogue, downloads). Stands in for the in-site Data Observatory page.
 export const DATA_URL = (import.meta.env.VITE_DATA_URL || 'https://data.hyderabad.urbanobservatory.in') + '/';
 
-// Tools (the former Thematic Areas "Tools" tab), its own site
-export const TOOLS_URL = trim(import.meta.env.VITE_TOOLS_URL || 'https://tools.hyderabad.urbanobservatory.in') + '/';
+// Tools (the former Thematic Areas "Tools" tab), at /tools/ and /stories/ under the main address (since 24 Oct 2026)
+export const TOOLS_URL = trim(import.meta.env.VITE_TOOLS_URL || 'https://hyderabad.urbanobservatory.in/tools') + '/';
 
-// Stories & datasets and the story pages, its own site
-export const STORIES_URL = trim(import.meta.env.VITE_STORIES_URL || 'https://stories.hyderabad.urbanobservatory.in') + '/';
+// Stories & datasets and the story pages, at /tools/ and /stories/ under the main address (since 24 Oct 2026)
+export const STORIES_URL = trim(import.meta.env.VITE_STORIES_URL || 'https://hyderabad.urbanobservatory.in/stories') + '/';
