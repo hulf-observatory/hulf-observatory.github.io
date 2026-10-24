@@ -1,83 +1,50 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
-import { DATA_URL } from '../../lib/links';
+import { DATA_URL, TOOLS_URL, STORIES_URL } from '../../lib/links';
 
+// Slim header shared by the Observatory's pages (visual standard, 24 Oct 2026): a white bar with a hairline
+// under it. On the home page Tools and Stories are the big buttons, so the bar lists only Data sources and About.
 export default function AppHeader() {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const burgerRef = useRef(null);
   const menuRef = useRef(null);
 
   // the menu is a one-shot: it closes when the route changes, on Escape (focus goes back
   // to the burger) and on any pointer down outside the burger and the menu card
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => { setOpen(false); }, [pathname]);
   useEffect(() => {
-    if (!menuOpen) return undefined;
-    const onKey = (e) => {
-      if (e.key !== 'Escape') return;
-      setMenuOpen(false);
-      burgerRef.current?.focus();
-    };
+    if (!open) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') { setOpen(false); burgerRef.current?.focus(); } };
     const onDown = (e) => {
       if (burgerRef.current?.contains(e.target) || menuRef.current?.contains(e.target)) return;
-      setMenuOpen(false);
+      setOpen(false);
     };
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onDown);
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('pointerdown', onDown);
-    };
-  }, [menuOpen]);
+    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onDown); };
+  }, [open]);
+
+  const links = (
+    <>
+      {!isHome && <a href={TOOLS_URL} rel="noopener">Tools</a>}
+      {!isHome && <a href={STORIES_URL} rel="noopener">Stories</a>}
+      <a href={DATA_URL} rel="noopener">Data sources</a>
+      <Link to="/about" aria-current={pathname === '/about' ? 'page' : undefined}>About</Link>
+    </>
+  );
 
   return (
-    <header className={`app-header${isHome ? ' is-home' : ''}`}>
-      <div className="header-brand">
-        <Link to="/" className="logo-link hover-hatch">
-          <Logo />
-        </Link>
-        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-          <Link to="/" className="header-title-link solid-block">
-            <h1 className="header-title">
-              Hyderabad<br />
-              <strong>Urban Observatory</strong>
-            </h1>
-          </Link>
-        </div>
-      </div>
-
-      {isHome ? (
-        <>
-          <nav className="home-links home-links-desktop" aria-label="Site">
-            <a href={DATA_URL} rel="noopener">Data sources</a>
-            <Link to="/about">About</Link>
-          </nav>
-          <button
-            type="button"
-            ref={burgerRef}
-            className={`home-burger${menuOpen ? ' is-open' : ''}`}
-            aria-label="Menu"
-            aria-expanded={menuOpen}
-            aria-controls="home-menu"
-            onClick={() => setMenuOpen((o) => !o)}
-          >
-            <span /><span /><span />
-          </button>
-          {menuOpen && (
-            <nav className="home-menu" id="home-menu" ref={menuRef} aria-label="Site">
-              <a href={DATA_URL} rel="noopener">Data sources</a>
-              <Link to="/about">About</Link>
-              <Link to="/disclaimer">Disclaimer</Link>
-            </nav>
-          )}
-        </>
-      ) : (
-        <Link to="/" className="header-nav-link hover-hatch">
-          <span className="hatch-bg-text">Home</span>
-        </Link>
-      )}
+    <header className={`obs-header${isHome ? ' is-home' : ''}`}>
+      <Link to="/" className="obs-brand" aria-label="Hyderabad Urban Observatory, home">
+        <span className="obs-logo"><Logo /></span><span className="obs-word">Hyderabad Urban Observatory</span>
+      </Link>
+      <nav className="obs-nav" aria-label="Observatory">{links}</nav>
+      <button type="button" ref={burgerRef} className="obs-burger" aria-label="Menu" aria-expanded={open}
+        aria-controls="obs-menu" onClick={() => setOpen((o) => !o)}><span /></button>
+      {open && <nav className="obs-menu" id="obs-menu" ref={menuRef} aria-label="Observatory">{links}</nav>}
     </header>
   );
 }
