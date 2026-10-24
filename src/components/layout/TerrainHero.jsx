@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 // Home-page terrain: east-west ridgelines over the HMDA rectangle, seen from the south.
 // Lines inside the GHMC boundary are drawn darker, lakes are filled (blue inside GHMC,
 // grey outside) and landmarks pop up one after another with their coordinates.
-// Data: /data/terrain-hmda.json, built by observatory-work/elevation/scripts/web_terrain.py
+// Data: /terrain/terrain-hmda.json (not /data/: that path is the data site since 24 Oct 2026), built by observatory-work/elevation/scripts/web_terrain.py
 // (see "elevation lines/README.md"). All geometry is in the file's "view units"; this
 // component only frames and draws it.
 
@@ -39,7 +39,7 @@ export default function TerrainHero() {
 
   useEffect(() => {
     let alive = true;
-    fetch(`${import.meta.env.BASE_URL}data/terrain-hmda.json`)
+    fetch(`${import.meta.env.BASE_URL}terrain/terrain-hmda.json`)
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => alive && j && setData(j))
       .catch(() => {});
