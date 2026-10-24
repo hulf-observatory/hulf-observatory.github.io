@@ -48,10 +48,12 @@ body { background: var(--canvas); font-size: 16px; line-height: 1.6; }
 .obs-menu a { padding: 11px 12px; border-radius: var(--r-ctl); font: 400 15px/1 var(--font-ui); color: var(--text-2); text-decoration: none; }
 .obs-menu a:hover { background: var(--band); color: var(--ink); }
 .obs-menu a[aria-current="page"] { color: var(--ink); font-weight: 900; }
-@media (min-width: 768px) {
+/* five links fit from 1024 px; below that they fold into the burger */
+@media (min-width: 1024px) {
   .obs-nav { display: flex; }
   .obs-burger, .obs-menu { display: none; }
 }
+.obs-nav a { white-space: nowrap; }
 
 /* ── Footer: one bar (the site links live in the header only) ── */
 .obs-footer { margin: 56px -24px -24px; padding: 16px 24px 18px; border-top: 1px solid var(--border); background: var(--surface); }
@@ -142,3 +144,8 @@ body { background: var(--canvas); font-size: 16px; line-height: 1.6; }
 .footer-disclaimer-link { font: 900 11px/1 var(--font-ui); letter-spacing: .12em; }
 .image-comparison { border-radius: var(--r-card); box-shadow: none; border: 1px solid var(--border); }
 @media (max-width: 420px) { .obs-word { font-size: 11.5px; letter-spacing: .13em; } .obs-logo { width: 30px; height: 30px; } }
+
+/* About page: team and advisor cards share one grid, so every profile card is the same size */
+.profiles-grid-2, .profiles-grid-3 { gap: 16px; }
+@media (min-width: 1024px) { .profiles-grid-2, .profiles-grid-3 { grid-template-columns: repeat(3, 1fr); } }
+.profile-role { font-size: 13px; letter-spacing: 0; color: var(--text-2); }
