@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 // data licence, with Disclaimer at the right. The site links live in the header only. The home page adds
 // the terrain credit.
 export default function AppFooter() {
-  const { pathname } = useLocation();
+  const pathname = useLocation().pathname.replace(/(.)\/$/, '$1'); // /disclaimer/ as /disclaimer
   const isHome = pathname === '/';
 
   return (

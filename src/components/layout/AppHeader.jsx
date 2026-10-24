@@ -6,7 +6,8 @@ import { MAPS_URL, DATA_URL, TOOLS_URL, STORIES_URL } from '../../lib/links';
 // Slim header shared by the Observatory's pages (visual standard, 24 Oct 2026): a white bar with a hairline
 // under it. On the home page Layers, Tools and Stories are the big buttons, so the bar lists only Data sources and About.
 export default function AppHeader() {
-  const { pathname } = useLocation();
+  // routes are also served as /about/ etc. (a file per route, so they answer 200); compare without the slash
+  const pathname = useLocation().pathname.replace(/(.)\/$/, '$1');
   const isHome = pathname === '/';
   const [open, setOpen] = useState(false);
   const burgerRef = useRef(null);
