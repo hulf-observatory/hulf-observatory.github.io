@@ -10,8 +10,8 @@ The Observatory's web presence is three small sites that share one look:
 | Site | Repo | Content |
 |---|---|---|
 | https://hyderabad.urbanobservatory.in | `site` (this repo) | home, About, Disclaimer, redirects |
-| https://tools.hyderabad.urbanobservatory.in | `tools` | the tool cards (the former Thematic Areas "Tools" tab) |
-| https://stories.hyderabad.urbanobservatory.in | `stories` | the stories & datasets cards and the story pages |
+| https://hyderabad.urbanobservatory.in/tools | `tools` | the tool cards (the former Thematic Areas "Tools" tab) |
+| https://hyderabad.urbanobservatory.in/stories | `stories` | the stories & datasets cards and the story pages |
 
 The shared pieces (header, footer, logo, not-found page, `links.js`, `styles/index.css`,
 fonts, favicon) are **copied** into each repo rather than packaged: three copies to keep in
@@ -34,11 +34,11 @@ npm run build      # dist/ (postbuild copies index.html to 404.html for SPA deep
 | Variable            | Default                                        | Purpose |
 |---------------------|------------------------------------------------|---------|
 | `VITE_BASE`         | `/`                                            | Path the site is served from (`/site/` on the project Pages URL). |
-| `VITE_MAPS_URL`     | `https://maps.hyderabad.urbanobservatory.in`      | Spatial Data Repository (map viewer): Layers button, `/explore/spatial-data-portal` redirect. |
-| `VITE_TIMELINE_URL` | `https://timeline.hyderabad.urbanobservatory.in/` | City Timeline links. |
-| `VITE_DATA_URL`     | `https://data.hyderabad.urbanobservatory.in`      | Open-data site: "Data sources", `/explore/data-observatory` redirect. |
-| `VITE_TOOLS_URL`    | `https://tools.hyderabad.urbanobservatory.in/`    | Tools site: home button, `/explore/thematic-areas` redirect. |
-| `VITE_STORIES_URL`  | `https://stories.hyderabad.urbanobservatory.in/`  | Stories site: home button, `/stories/…` redirects. |
+| `VITE_MAPS_URL`     | `https://hyderabad.urbanobservatory.in/maps`      | Spatial Data Repository (map viewer): Layers button, `/explore/spatial-data-portal` redirect. |
+| `VITE_TIMELINE_URL` | `https://hyderabad.urbanobservatory.in/timeline/` | City Timeline links. |
+| `VITE_DATA_URL`     | `https://hyderabad.urbanobservatory.in/data`      | Open-data site: "Data sources", `/explore/data-observatory` redirect. |
+| `VITE_TOOLS_URL`    | `https://hyderabad.urbanobservatory.in/tools/`    | Tools site: home button, `/explore/thematic-areas` redirect. |
+| `VITE_STORIES_URL`  | `https://hyderabad.urbanobservatory.in/stories/`  | Stories site: home button, `/stories/…` redirects. |
 
 Example: `VITE_TOOLS_URL=http://localhost:5174/ npm run dev` points the Tools button at a local
 checkout of the tools site.

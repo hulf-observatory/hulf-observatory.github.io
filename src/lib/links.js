@@ -9,7 +9,7 @@ export const MAPS_URL = trim(import.meta.env.VITE_MAPS_URL || 'https://hyderabad
 export const TIMELINE_URL = trim(import.meta.env.VITE_TIMELINE_URL || 'https://hyderabad.urbanobservatory.in/timeline') + '/';
 
 // The open-data site (catalogue, downloads). Stands in for the in-site Data Observatory page.
-export const DATA_URL = (import.meta.env.VITE_DATA_URL || 'https://data.hyderabad.urbanobservatory.in') + '/';
+export const DATA_URL = (import.meta.env.VITE_DATA_URL || 'https://hyderabad.urbanobservatory.in/data') + '/';
 
 // Tools (the former Thematic Areas "Tools" tab), at /tools/ and /stories/ under the main address (since 24 Oct 2026)
 export const TOOLS_URL = trim(import.meta.env.VITE_TOOLS_URL || 'https://hyderabad.urbanobservatory.in/tools') + '/';
