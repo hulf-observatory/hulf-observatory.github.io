@@ -1,6 +1,8 @@
 // Trend chart for a full view: a line (or bars) over time with a light normal band, dashed grid, axis labels.
 // Follows the figure rules (DESIGN-SYSTEM §5): data in colour, grid and labels in grey, no legend box.
-const W = 760;
+// Drawn at the width it is shown at (measured), so axis text stays 11 px on any screen.
+import { useEffect, useRef, useState } from 'react';
+
 const H = 240;
 const M = { l: 44, r: 16, t: 12, b: 28 };
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -17,9 +19,29 @@ function niceTicks(lo, hi, n = 4) {
   return out;
 }
 
-export default function TimeChart({ points = [], band = [], colour, mark = 'line', invert = false, unit = '', monthly = false, minSpan = 0, label }) {
+// a 7-point rolling mean, so a few odd days in past years don't make the normal band jagged
+const smooth = (band) => band.map((b, i) => {
+  const win = band.slice(Math.max(0, i - 3), i + 4);
+  return [b[0], win.reduce((s, w) => s + w[1], 0) / win.length, win.reduce((s, w) => s + w[2], 0) / win.length];
+});
+
+export default function TimeChart(props) {
+  const ref = useRef(null);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(([e]) => setW(Math.round(e.contentRect.width)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return <div ref={ref} className="lt-chart-wrap">{w > 0 && <Chart W={w} {...props} />}</div>;
+}
+
+function Chart({ W, points = [], band: rawBand = [], colour, mark = 'line', invert = false, unit = '', monthly = false, minSpan = 0, label }) {
   const pts = points.filter((p) => p[1] != null);
   if (pts.length < 2) return <p className="lt-empty">Not enough readings yet for a trend.</p>;
+  const band = rawBand.length > 14 ? smooth(rawBand) : rawBand;
   const t0 = ms(points[0][0]);
   const t1 = ms(points[points.length - 1][0]);
   const vals = [...pts.map((p) => p[1]), ...band.flatMap((b) => [b[1], b[2]])];
@@ -75,7 +97,7 @@ export default function TimeChart({ points = [], band = [], colour, mark = 'line
     );
   }
   return (
-    <svg className="lt-chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+    <svg className="lt-chart" width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
       {ticks.map((v) => (
         <g key={v}>
           <line x1={M.l} x2={W - M.r} y1={y(v)} y2={y(v)} stroke="#E5E7EB" strokeDasharray="3 3" />
