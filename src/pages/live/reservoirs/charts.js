@@ -123,10 +123,10 @@ export function mount(root, D) {
   };
   let cur = 'a', size = 'same';
   function drawA() {
-    // phones: two squares a row, sized to fit; elsewhere three of 140 px
-    const box = $('#rv-sq'), cell = PHONE() ? Math.floor((box.clientWidth - 10) / 2) : 228;
-    const MAXS = PHONE() ? Math.max(56, cell - 8 - 70 - 4) : 140, maxFtl = Math.max(...SHOW.map((r) => r.ftl));
-    box.style.setProperty('--cell', `${cell}px`); box.style.setProperty('--side', `${MAXS}px`);
+    // sized from the space there is, not the screen: three a row when they fit at full size, otherwise two, smaller
+    const box = $('#rv-sq'), bw = box.clientWidth, cols = bw >= 690 ? 3 : 2, cell = Math.min(228, Math.floor((bw - 10 * (cols - 1)) / cols));
+    const MAXS = Math.max(56, Math.min(140, cell - 8 - (PHONE() ? 70 : 80) - 4)), maxFtl = Math.max(...SHOW.map((r) => r.ftl));
+    box.style.setProperty('--cell', `${cell}px`); box.style.setProperty('--side', `${MAXS}px`); box.style.gridTemplateColumns = `repeat(${cols}, max-content)`;
     const side = (r) => (size === 'same' ? MAXS : Math.max(24, Math.round(MAXS * Math.sqrt(r.ftl / maxFtl))));
     const item = (r, i, note = '') => `<div class="it"><div class="sqw">${tank({ id: i, w: side(r), h: side(r), max: 100, now: r.pct, avg: r.norm, ly: r.ly, fmt: pctF })}</div><div class="cap"><b>${r.name}</b>${note}${r.ftl} TMC when full</div></div>`;
     box.innerHTML = city.map((r, i) => item(r, i)).join('') + SHOW.filter((r) => !r.city).map((r, i) => item(r, 9 + i, 'Godavari, not in the city total<br>')).join('');
