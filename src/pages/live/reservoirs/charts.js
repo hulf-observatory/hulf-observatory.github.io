@@ -380,5 +380,28 @@ export function mount(root, D) {
   }
   on('scroll', update, { passive: true }); on('resize', update); update();
 
+  // on wide screens a list of the page's sections sits in the left margin; the one being read is marked
+  const heads = [...root.querySelectorAll('.blk')];
+  heads.forEach((h, i) => { h.id = h.id || `rv-s${i}`; });
+  const about = document.getElementById('about');
+  const toc = document.createElement('nav');
+  toc.className = 'rv-toc'; toc.setAttribute('aria-label', 'On this page');
+  toc.innerHTML = `<p>On this page</p>${heads.map((h) => `<a href="#${h.id}">${h.textContent}</a>`).join('')}${about ? '<a href="#about" class="rv-toc-about">About this data</a>' : ''}`;
+  root.appendChild(toc);
+  toc.onclick = (e) => {
+    const a = e.target.closest('a'); if (!a) return;
+    e.preventDefault();
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (target === about) about.open = true;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  function mark() {
+    const all = about ? [...heads, about] : heads;
+    let current = all[0];
+    all.forEach((h) => { if (h.getBoundingClientRect().top < 140) current = h; });
+    toc.querySelectorAll('a').forEach((a) => a.classList.toggle('on', a.getAttribute('href') === `#${current.id}`));
+  }
+  on('scroll', mark, { passive: true }); mark();
+
   return () => listeners.forEach(([type, fn]) => removeEventListener(type, fn));
 }

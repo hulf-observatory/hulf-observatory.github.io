@@ -72,6 +72,18 @@
 .rv .more svg { animation: rv-nudge 1.6s ease-in-out infinite; }
 @keyframes rv-nudge { 50% { transform: translateY(2px); } }
 @media (prefers-reduced-motion: reduce) { .rv .wave, .rv .more svg { animation: none; } }
+/* section list in the left margin, wide screens only (there the "More below" pill is not needed) */
+.rv .rv-toc { display: none; }
+.rv .blk { scroll-margin-top: 24px; }
+.rv .rv-about { scroll-margin-top: 24px; }
+@media (min-width: 1360px) {
+  .rv .rv-toc { display: flex; flex-direction: column; gap: 2px; position: fixed; top: 140px; left: max(24px, calc(50% - 480px - 220px)); width: 180px; z-index: 5; }
+  .rv .rv-toc p { margin: 0 0 8px; font: 900 11px/1.2 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .rv .rv-toc a { display: block; padding: 6px 0 6px 12px; border-left: 2px solid var(--border); font-size: 14px; line-height: 1.35; color: var(--text-2); text-decoration: none; }
+  .rv .rv-toc a:hover { color: var(--ink); border-left-color: var(--border-2); }
+  .rv .rv-toc a.on { color: var(--ink); font-weight: 700; border-left-color: var(--ink); }
+  .rv .more { display: none; }
+}
 .rv .rv-about { margin-top: 44px; }
 .rv .rv-about summary { cursor: pointer; font: 700 24px/1.25 var(--font-ui); color: var(--ink); margin-bottom: 10px; list-style-position: outside; }
 .rv .rv-about summary::marker { color: var(--muted); }
