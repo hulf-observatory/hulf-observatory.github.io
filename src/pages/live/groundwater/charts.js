@@ -176,9 +176,9 @@ export function mount(root, D) {
   function drawShafts(el) {
     const st = AREA_LIST.map((a) => [a, D.areas[a]]), MAX = 4 * niceMax((Math.max(...st.flatMap(([, s]) => [s.now, s.ly || 0, s.avg || 0])) * 1.08) / 4);
     const cell = PHONE() ? Math.floor((el.clientWidth - 10) / 2) : 228, side = PHONE() ? Math.max(56, cell - 8 - 70 - 4) : 130, H = Math.round(side * 1.5);
-    el.innerHTML = `<div class="squares" style="--cell:${cell}px;--side:${H}px">${st.map(([a, s], i) => `<div class="it"><div class="sqw">${
+    el.innerHTML = `<div class="squares" style="--cell:${cell}px;--side:${H}px">${st.map(([a, s], i) => `<div class="it"><p class="nm">${a}</p><div class="sqw">${
       shaft({ id: i, w: side * 0.55, h: H, max: MAX, now: s.now, avg: s.avg, ly: s.ly })
-    }</div><div class="cap"><b>${a}</b>${s.n} wells</div></div>`).join('')}</div>
+    }</div><div class="cap">${s.n} wells</div></div>`).join('')}</div>
     <p class="note" style="margin-top:6px">Each shaft runs from the ground (the line on top) to ${MAX} m: hatched where it is dry, water below fading out because its full depth is not measured. avg = the median of each well's own ${MONTHNAME} readings in earlier years (telemetry, ${avgYears}); last yr = this week in ${P}.${left.length ? ` ${left.length} wells whose readings look wrong are left out; the other two views name them.` : ''}</p>`;
     return D.areas.HMDA;
   }

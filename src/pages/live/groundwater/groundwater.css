@@ -35,6 +35,7 @@
 .gw .squares .sqw { display: flex; align-items: flex-end; height: var(--side, 140px); width: var(--cell, 228px); }
 .gw .squares .cap { align-self: start; font-size: 13px; color: var(--muted); line-height: 1.45; white-space: nowrap; }
 .gw .squares .cap b { display: block; color: var(--ink); font-size: 14px; }
+.gw .squares .nm { margin: 0 0 -2px; font: 700 14px/1.3 var(--font-ui); color: var(--ink); white-space: nowrap; }   /* the area's name stands on the ground line */
 .gw .squares svg text { font-family: var(--font-ui); }
 .gw .wave { animation: gw-drift var(--t) linear infinite; }
 .gw .wave.back { animation-direction: reverse; }
