@@ -19,6 +19,10 @@ export function useLiveJson(name) {
   return state;
 }
 
+// the cards whose Explore opens a section of the Weather and air page (/live/weather#s-…)
+export const WEATHER_SECTION = { heat: 's-temp', heatindex: 's-hi', humidity: 's-rh', rain: 's-rain', air: 's-air', wind: 's-wind' };
+export const exploreLink = (id) => (WEATHER_SECTION[id] ? `/live/weather#${WEATHER_SECTION[id]}` : `/live/${id}`);
+
 // one colour per card, from the data palette (DESIGN-SYSTEM §2); the interface stays ink and grey
 export const THEMES = {
   rain: { colour: '#3F76B0', mark: 'bars', minSpan: 10, span: '7 days' },

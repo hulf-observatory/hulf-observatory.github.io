@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import AppHeader from './components/layout/AppHeader';
 import AppFooter from './components/layout/AppFooter';
@@ -15,6 +15,8 @@ import LiveTheme from './pages/live/LiveTheme';
 import Reservoirs from './pages/live/reservoirs/Reservoirs';
 import Groundwater from './pages/live/groundwater/Groundwater';
 import Tankers from './pages/live/tankers/Tankers';
+import Weather from './pages/live/weather/Weather';
+import { WEATHER_SECTION } from './pages/live/data';
 
 const draftTheme = {
   token: {
@@ -74,6 +76,9 @@ export default function App() {
           <Route path="/live/reservoirs" element={<Reservoirs />} />
           <Route path="/live/groundwater" element={<Groundwater />} />
           <Route path="/live/tankers" element={<Tankers />} />
+          <Route path="/live/weather" element={<Weather />} />
+          {/* the six weather and air cards' old full views now open their section of /live/weather */}
+          {Object.entries(WEATHER_SECTION).map(([id, sec]) => <Route key={id} path={`/live/${id}`} element={<Navigate to={`/live/weather#${sec}`} replace />} />)}
           <Route path="/live/:id" element={<LiveTheme />} />
           {/* the in-site Data Observatory page is retired; "Data sources" is the open-data site */}
           <Route path="/explore/data-observatory" element={<ExternalRedirect to={DATA_URL} />} />

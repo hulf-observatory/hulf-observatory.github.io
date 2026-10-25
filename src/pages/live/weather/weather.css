@@ -1,0 +1,129 @@
+/* The Weather and air page (/live/weather/), a copy of the Reservoirs page's styles (reservoirs.css) scoped to .wx:
+   house tokens and the figure frame (DESIGN-SYSTEM §5), tabs that change the chart and its title, View / Show rows, a
+   source line with a share button, a "More below" pill. Additions at the end: calendars, station lists, the wind rose. */
+.wx { --tab-on: #E4EDF6; }
+.wx .wx-body { display: flex; flex-direction: column; }
+.wx #wx-blocks { display: contents; }
+.wx .blk { margin: 44px 0 14px; font: 700 24px/1.25 var(--font-ui); color: var(--ink); }   /* the same space above every block */
+.wx .blk.first { margin-top: 20px; }
+.wx .fig { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 18px 22px 12px; min-width: 0; }
+.wx .fig-title { margin: 0; font: 700 20px/1.3 var(--font-ui); color: var(--ink); }
+.wx .fig-title small { font: 400 16px var(--font-ui); color: var(--muted); margin-left: 4px; white-space: nowrap; }
+.wx .fig-sub { margin: 2px 0 10px; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+.wx .controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.wx .tabs { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: var(--r-ctl); background: var(--surface); }
+.wx .tabs button, .wx .opt button { display: inline-flex; align-items: center; gap: 6px; font: 400 13.5px/1 var(--font-ui); padding: 8px 12px; border: 0; border-radius: 3px; background: none; color: var(--text-2); cursor: pointer; }
+.wx .tabs button:hover, .wx .opt button:hover { background: var(--surface-2); }
+.wx .tabs button.on, .wx .opt button.on { background: var(--tab-on); color: var(--ink); font-weight: 700; }
+.wx .tabs button:focus-visible, .wx .opt button:focus-visible, .wx .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.wx .opt { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.wx .opt .grp { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: var(--r-ctl); }
+.wx .opt[hidden], .wx .pane[hidden], .wx .key[hidden], .wx .multiples[hidden], .wx .chart[hidden] { display: none; }
+.wx .ctl { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.wx .ctl .row { display: flex; align-items: center; gap: 10px; }
+.wx .ctl .row[hidden] { display: none; }
+.wx .ctl .lab { width: 38px; font-size: 12.5px; color: var(--muted); }
+.wx .ctl .tabs button { padding: 7px 12px; }
+.wx .key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin-bottom: 12px; align-items: center; }
+.wx .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.wx .key .ln { width: 18px; height: 0; border-radius: 0; vertical-align: 3px; }
+.wx .note { margin: 10px 0 0; font-size: 12px; color: var(--muted); max-width: var(--measure); }
+.wx .note:empty { display: none; }
+/* storage today: every cell the same box; a smaller square sits in its bottom-left corner */
+.wx .squares { display: grid; grid-template-columns: repeat(3, max-content); justify-content: space-between; gap: 28px 10px; padding: 10px 0 4px; }
+.wx .squares .it { display: flex; flex-direction: column; gap: 8px; }
+.wx .squares .sqw { display: flex; align-items: flex-end; height: var(--side, 140px); width: var(--cell, 228px); }
+.wx .squares .cap { align-self: start; font-size: 13px; color: var(--muted); line-height: 1.45; white-space: nowrap; }
+.wx .squares .cap b { display: block; color: var(--ink); font-size: 14px; }
+.wx .squares svg text { font-family: var(--font-ui); }
+.wx .wave { animation: wx-drift var(--t) linear infinite; }
+.wx .wave.back { animation-direction: reverse; }
+@keyframes wx-drift { to { transform: translateX(calc(-1 * var(--wl))); } }
+.wx .db-row { display: grid; grid-template-columns: 130px 1fr 170px; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; }
+.wx .db-row .n { color: var(--text-2); }
+.wx .db-row .v { text-align: right; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.wx .db-row .v b { color: var(--ink); }
+/* charts */
+.wx .chart { position: relative; width: 100%; }
+.wx .chart svg { display: block; font-family: var(--font-ui); }
+.wx .chart .ax { font-size: 12px; fill: var(--muted); }
+.wx .chart .lbl { font-size: 12.5px; fill: var(--ink); }
+.wx .chart .lbl-muted { fill: var(--muted); }
+.wx .chart .halo { paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.wx .tip { position: absolute; top: 8px; background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r-ctl); padding: 8px 10px; font-size: 12.5px; color: var(--text-2); display: flex; flex-direction: column; gap: 3px; pointer-events: none; min-width: 150px; z-index: 2; }
+.wx .tip[hidden] { display: none; }
+.wx .tip i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+.wx .multiples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 20px; }
+.wx .mp-t { display: flex; justify-content: space-between; margin: 0 0 2px; font-size: 13.5px; color: var(--text-2); }
+.wx .mp-t span { font-weight: 700; color: var(--ink); }
+/* source line */
+.wx .foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); }
+.wx .foot p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted); }
+.wx .foot p b { color: var(--text-2); }
+.wx .foot a { color: var(--text-2); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 2px; }
+.wx .btn { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--r-ctl); background: var(--surface); color: var(--text-2); cursor: pointer; }
+.wx .btn.done { border-color: var(--ink); color: var(--ink); }
+/* scroll-down pill */
+.wx .more { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 20; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px;
+  font: 700 13.5px/1 var(--font-ui); color: var(--ink); background: var(--surface); border: 1px solid var(--border-2); border-radius: 18px; cursor: pointer; white-space: nowrap;
+  box-shadow: var(--shadow-float); transition: opacity .25s ease; }
+.wx .more span { font-weight: 400; color: var(--muted); }
+.wx .more.gone { opacity: 0; pointer-events: none; }
+.wx .more svg { animation: wx-nudge 1.6s ease-in-out infinite; }
+@keyframes wx-nudge { 50% { transform: translateY(2px); } }
+@media (prefers-reduced-motion: reduce) { .wx .wave, .wx .more svg { animation: none; } }
+/* section list in the left margin, wide screens only (there the "More below" pill is not needed) */
+.wx .wx-toc { display: none; }
+.wx .blk { scroll-margin-top: 24px; }
+.wx .wx-about { scroll-margin-top: 24px; }
+@media (min-width: 1360px) {
+  .wx .wx-toc { display: flex; flex-direction: column; gap: 2px; position: fixed; top: 140px; left: max(24px, calc(50% - 480px - 220px)); width: 180px; z-index: 5; }
+  .wx .wx-toc p { margin: 0 0 8px; font: 900 11px/1.2 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .wx .wx-toc a { display: block; padding: 6px 0 6px 12px; border-left: 2px solid var(--border); font-size: 14px; line-height: 1.35; color: var(--text-2); text-decoration: none; }
+  .wx .wx-toc a:hover { color: var(--ink); border-left-color: var(--border-2); }
+  .wx .wx-toc a.on { color: var(--ink); font-weight: 700; border-left-color: var(--ink); }
+  .wx .more { display: none; }
+}
+.wx .wx-about { margin-top: 44px; }
+.wx .wx-about summary { cursor: pointer; font: 700 24px/1.25 var(--font-ui); color: var(--ink); margin-bottom: 10px; list-style-position: outside; }
+.wx .wx-about summary::marker { color: var(--muted); }
+.wx .wx-about p { margin: 0 0 8px; font-size: 17px; line-height: 1.7; color: var(--text-2); max-width: var(--measure); }
+.wx .live-note { margin: 16px 0 0; font-size: 16px; color: var(--muted); }
+@media (max-width: 640px) {
+  .wx .fig { padding: 14px 12px 10px; }
+  .wx .fig-title { font-size: 17px; }
+  .wx .fig-title small { display: block; margin: 2px 0 0; font-size: 13px; }
+  .wx .squares { grid-template-columns: repeat(2, max-content); gap: 22px 10px; }
+  .wx .tabs { flex-wrap: wrap; }
+  .wx .tabs button, .wx .opt button { padding: 8px 10px; font-size: 13px; }
+  .wx .controls { gap: 8px; }
+  .wx .multiples { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+  .wx .foot p { font-size: 11.5px; }
+  .wx .blk { margin-top: 34px; font-size: 20px; }
+  .wx .wx-about { margin-top: 34px; }
+  .wx .wx-about summary { font-size: 20px; }
+  .wx .db-row { grid-template-columns: 100px 1fr; }
+  .wx .db-row .v { grid-column: 1 / -1; text-align: left; }
+}
+/* additions: calendars, year bars, station lists, wind rose */
+.wx .bandkey{display:inline-flex;gap:0;vertical-align:-1px}
+.wx .bandkey i{width:14px;height:10px;margin:0;border-radius:0}
+.wx .cal{display:grid;gap:2px;font-size:11.5px;color:var(--muted);align-items:center}
+.wx .cal .c{aspect-ratio:1;border-radius:2px;border:1px solid rgba(17,24,39,.08)}
+.wx .cal .c.none{background:var(--surface-2);border-color:transparent}
+.wx .cal .c.out{visibility:hidden}
+.wx .cal .m{white-space:nowrap}
+.wx .cal .h{text-align:center;font-size:10.5px}
+.wx .yb{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;padding:5px 0;font-size:13.5px;color:var(--text-2)}
+.wx .yb .bar{display:flex;height:22px}
+.wx .yb .bar i{display:flex;align-items:center;justify-content:center;font:700 11.5px/1 var(--font-ui);font-style:normal;color:#111827;overflow:hidden;white-space:nowrap}
+.wx .yb small{color:var(--muted);font-size:12px}
+.wx .mon{display:grid;grid-template-columns:minmax(0,220px) 1fr 140px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.wx .mon .n{color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wx .mon .b{height:10px;background:var(--surface-2);position:relative}
+.wx .mon .b i{position:absolute;left:0;top:0;bottom:0}
+.wx .mon .v{text-align:right;font-size:12.5px;color:var(--muted);white-space:nowrap}.wx .mon .v b{color:var(--ink);font-size:14px}
+@media (max-width:640px){.wx .mon{grid-template-columns:minmax(0,1fr) 110px}.wx .mon .b{grid-column:1/-1;order:3}.wx .yb{grid-template-columns:76px 1fr}}
+.wx .rose{display:flex;justify-content:center}
+.wx .wl-more{margin-top:10px;height:34px;padding:0 14px;font:700 13.5px/1 var(--font-ui);color:var(--ink);background:var(--surface);border:1px solid var(--border-2);border-radius:4px;cursor:pointer}
+.wx .chart .tip{top:8px}

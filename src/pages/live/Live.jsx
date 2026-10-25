@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useDocumentTitle from '../../lib/useDocumentTitle';
 import { Tank, Well, Column, Thermo, CategoryBar, WindGrid, DotDensity, AQI, HEAT_INDEX } from './Graphics';
-import { useLiveJson, THEMES, fmtDay, fmtMonth, num } from './data';
+import { useLiveJson, THEMES, fmtDay, fmtMonth, num, exploreLink } from './data';
 import './live.css';
 
 // /live/ — the summary: one card per theme, each opening its full view (/live/<theme>/).
@@ -31,13 +31,16 @@ export default function Live() {
 
 // three columns on wide screens, filled top to bottom: temperature, humidity, heat index | rain, wind, air |
 // reservoirs, groundwater, tankers (Teja, 25 Oct). Narrower screens keep this order, row by row.
+// IMD's warning level for each heat index colour, as on the Weather and air page (Teja, 25 Oct)
+const HI_LEVEL = { Green: 'no warning', Yellow: 'be aware', Orange: 'be prepared', Red: 'take action' };
+
 const ORDER = ['heat', 'humidity', 'heatindex', 'rain', 'wind', 'air', 'reservoirs', 'groundwater', 'tankers'];
 
 function Card({ c }) {
   const t = THEMES[c.id] || { colour: '#185FA5' };
   const { value, unit, line, compare, graphic, asOf, noDate } = describe(c);
   return (
-    <Link to={`/live/${c.id}`} className="live-card">
+    <Link to={exploreLink(c.id)} className="live-card">
       <div className="live-card-text">
         <h2 className="live-title">{c.title}</h2>
         <div className="live-value">{value}{unit && <span className="live-unit">{unit}</span>}</div>
@@ -96,7 +99,7 @@ export function describe(c) {
     case 'heatindex': {
       const d = c.value != null && c.air_c != null ? c.value - c.air_c : null;
       return {
-        value: num(c.value), unit: '°C', line: `Feels like · ${c.band || ''}`,
+        value: num(c.value), unit: '°C', line: `Feels like · ${HI_LEVEL[c.band] || ''}`,
         compare: d == null || Math.abs(d) < 0.5 ? null : `${num(Math.abs(d))}° ${d > 0 ? 'hotter' : 'cooler'} than the air`,
         graphic: c.value != null ? (colour, label) => <CategoryBar value={c.value} {...HEAT_INDEX} unit="°" label={label} /> : null,
       };
