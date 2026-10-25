@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MAPS_URL, TOOLS_URL, STORIES_URL } from '../lib/links';
 import useDocumentTitle from '../lib/useDocumentTitle';
 
-// the map viewer, the tools and the stories are each their own site
+// the map viewer, the tools and the stories are each their own site; Live is a page of this one
 const ACTIONS = [
   { label: 'Layers', href: MAPS_URL + '/' },
   { label: 'Tools', href: TOOLS_URL },
@@ -38,6 +39,7 @@ export default function Home() {
     <main className="home-main">
       {hint && <p className="home-hint">Dive deeper — explore the city's layers, tools and stories</p>}
       <div className={`home-actions${hint ? ' is-hint' : ''}`}>
+        <Link to="/live" className="home-action home-action--live"><i className="obs-live-dot" aria-hidden="true" />Live<ArrowIcon /></Link>
         {ACTIONS.map(({ label, href }) => (
           <a key={label} href={href} rel="noopener" className="home-action">
             {label}

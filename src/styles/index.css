@@ -497,6 +497,7 @@ a {
   }
   .home-actions { bottom: 42px; }
   .home-action { flex: 1; padding: 11px 12px; font-size: 13px; }
+  .home-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }   /* four buttons: two rows on phones */
 }
 
 /* burger (home page, mobile only) */

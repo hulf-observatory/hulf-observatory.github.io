@@ -143,7 +143,7 @@ body { background: var(--canvas); font-size: 16px; line-height: 1.6; }
 .app-footer.is-home .footer-note { font-family: var(--font-ui); }
 .footer-disclaimer-link { font: 900 11px/1 var(--font-ui); letter-spacing: .12em; }
 .image-comparison { border-radius: var(--r-card); box-shadow: none; border: 1px solid var(--border); }
-@media (max-width: 420px) { .obs-word { font-size: 11.5px; letter-spacing: .13em; } .obs-logo { width: 30px; height: 30px; } }
+@media (max-width: 420px) { .obs-word { font-size: 10.5px; letter-spacing: .08em; } .obs-logo { width: 28px; height: 28px; } .obs-brand { gap: 8px; } .obs-header { gap: 8px; } .obs-live-bar { font-size: 13.5px; } }   /* room for Live beside the burger */
 
 /* About page: team and advisor cards share one grid, so every profile card is the same size */
 .profiles-grid-2, .profiles-grid-3 { gap: 16px; }
@@ -156,3 +156,8 @@ body { background: var(--canvas); font-size: 16px; line-height: 1.6; }
 .obs-live-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #4A9447; animation: obs-live-pulse 1.8s ease-out infinite; }
 @keyframes obs-live-pulse { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(2.8); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .obs-live-dot::after { animation: none; } }
+/* below 1024 px the links fold into the burger; Live stays in the bar, just before it */
+.obs-live-bar { margin-left: auto; font: 700 14px/1 var(--font-ui); color: var(--ink); text-decoration: none; white-space: nowrap; flex: none; }
+.obs-header .obs-live-bar + .obs-burger { margin-left: -4px; }
+@media (min-width: 1024px) { .obs-live-bar { display: none; } }
+.home-action--live .obs-live-dot { margin-right: -4px; }
