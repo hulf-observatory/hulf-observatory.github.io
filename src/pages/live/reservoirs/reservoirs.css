@@ -4,7 +4,6 @@
 .rv { --tab-on: #E4EDF6; }
 .rv .rv-body { display: flex; flex-direction: column; }
 .rv #rv-blocks { display: contents; }
-.rv .lt-back { align-self: flex-start; }
 .rv .blk { margin: 44px 0 14px; font: 700 24px/1.25 var(--font-ui); color: var(--ink); }   /* the same space above every block */
 .rv .blk.first { margin-top: 20px; }
 .rv .fig { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 18px 22px 12px; min-width: 0; }
@@ -73,7 +72,8 @@
 @keyframes rv-nudge { 50% { transform: translateY(2px); } }
 @media (prefers-reduced-motion: reduce) { .rv .wave, .rv .more svg { animation: none; } }
 .rv .rv-about { margin-top: 44px; }
-.rv .rv-about h2 { margin: 0 0 10px; font: 700 24px/1.25 var(--font-ui); }
+.rv .rv-about summary { cursor: pointer; font: 700 24px/1.25 var(--font-ui); color: var(--ink); margin-bottom: 10px; list-style-position: outside; }
+.rv .rv-about summary::marker { color: var(--muted); }
 .rv .rv-about p { margin: 0 0 8px; font-size: 17px; line-height: 1.7; color: var(--text-2); max-width: var(--measure); }
 .rv .live-note { margin: 16px 0 0; font-size: 16px; color: var(--muted); }
 @media (max-width: 640px) {
@@ -86,7 +86,9 @@
   .rv .controls { gap: 8px; }
   .rv .multiples { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
   .rv .foot p { font-size: 11.5px; }
-  .rv .blk, .rv .rv-about h2 { margin-top: 34px; font-size: 20px; }
+  .rv .blk { margin-top: 34px; font-size: 20px; }
+  .rv .rv-about { margin-top: 34px; }
+  .rv .rv-about summary { font-size: 20px; }
   .rv .db-row { grid-template-columns: 100px 1fr; }
   .rv .db-row .v { grid-column: 1 / -1; text-align: left; }
 }

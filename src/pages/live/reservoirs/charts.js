@@ -364,6 +364,8 @@ export function mount(root, D) {
   };
   drawSrc(); on('resize', drawSrc);
 
+  root.addEventListener('click', (e) => { if (e.target.closest('a[href="#about"]')) { const d = document.getElementById('about'); if (d) d.open = true; } });
+
   // share: the system share sheet where there is one, otherwise copy the link
   root.querySelectorAll('.share').forEach((b) => { b.onclick = () => {
     const url = 'https://hyderabad.urbanobservatory.in/live/reservoirs/';

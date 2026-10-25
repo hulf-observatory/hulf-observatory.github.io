@@ -53,12 +53,11 @@ export default function LiveTheme() {
   const sourceLine = `Source: ${page.source} · Hyderabad Urban Observatory`;
   return (
     <main className="content-main content-main--lg live lt">
-      <Link to="/live" className="lt-back">← Live</Link>
       {!card && <p className="live-note">{summary.error ? 'The live numbers could not be loaded.' : 'Loading…'}</p>}
       {card && (
         <>
           <div className="page-intro lt-intro">
-            <span className="eyebrow-live">Live · HMDA</span>
+            <span className="eyebrow-live"><Link to="/live">Live</Link> · HMDA</span>
             <h1>{card.title}</h1>
           </div>
 

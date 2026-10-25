@@ -21,15 +21,14 @@ export default function Reservoirs() {
   return (
     <main className="content-main content-main--lg rv">
       <div className="rv-body">
-        <Link to="/live" className="lt-back">← Live</Link>
         <div className="page-intro lt-intro">
-          <span className="eyebrow-live">Live · HMDA</span>
+          <span className="eyebrow-live"><Link to="/live">Live</Link> · HMDA</span>
           <h1>Reservoirs</h1>
         </div>
         {!data && <p className="live-note">{error ? 'The reservoir numbers could not be loaded. Try again in a few minutes.' : 'Loading…'}</p>}
         <div ref={ref} style={{ display: 'contents' }} />
-        <section className="rv-about" id="about">
-          <h2>About this data</h2>
+        <details className="rv-about" id="about">
+          <summary>About this data</summary>
           <p>HMWSSB, the city&apos;s water board, publishes the level, storage, withdrawal and inflow of each reservoir every day. The
             five city reservoirs are Osman Sagar and Himayat Sagar on the Musi, Singur and Manjira on the Manjira, and Akkampally,
             which holds Krishna water brought from Nagarjuna Sagar. Yellampally on the Godavari has supplied the city since
@@ -40,7 +39,7 @@ export default function Reservoirs() {
             the table repeats one withdrawal figure for each month, and inflow for 2014 is not reported.</p>
           <p>Averages are of the same month in 2014 to last year. Source: HMWSSB daily reservoir levels, collected every morning by
             the observatory.</p>
-        </section>
+        </details>
       </div>
     </main>
   );
