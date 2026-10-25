@@ -71,7 +71,7 @@ export default function LiveTheme() {
             <section className="lt-block">
               <h2 className="lt-h2">{trendTitle(id, card)}</h2>
               <TimeChart points={card.trend.points} band={card.trend.band || []} colour={t.colour}
-                mark={t.mark === 'bars' ? 'bars' : 'line'} invert={!!t.invert} monthly={!!t.monthly} unit={page.unit === 'AQI' ? '' : page.unit}
+                mark={t.mark === 'bars' ? 'bars' : 'line'} invert={!!t.invert} monthly={!!t.monthly} minSpan={t.minSpan || 0} unit={page.unit === 'AQI' ? '' : page.unit}
                 label={card.trend.label} />
               <p className="lt-note">{card.trend.label}{card.trend.band_label ? ` · shaded: ${card.trend.band_label}` : ''}</p>
             </section>

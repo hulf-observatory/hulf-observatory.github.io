@@ -17,7 +17,7 @@ function niceTicks(lo, hi, n = 4) {
   return out;
 }
 
-export default function TimeChart({ points = [], band = [], colour, mark = 'line', invert = false, unit = '', monthly = false, label }) {
+export default function TimeChart({ points = [], band = [], colour, mark = 'line', invert = false, unit = '', monthly = false, minSpan = 0, label }) {
   const pts = points.filter((p) => p[1] != null);
   if (pts.length < 2) return <p className="lt-empty">Not enough readings yet for a trend.</p>;
   const t0 = ms(points[0][0]);
@@ -26,6 +26,7 @@ export default function TimeChart({ points = [], band = [], colour, mark = 'line
   let lo = Math.min(...vals);
   let hi = Math.max(...vals);
   if (mark === 'bars' || lo > 0 && lo < (hi - lo) * 0.6) lo = 0;
+  hi = Math.max(hi, lo + minSpan);   // a few tenths of a mm must not fill the chart
   const ticks = niceTicks(lo, hi);
   lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
   const x = (t) => M.l + ((t - t0) / (t1 - t0 || 1)) * (W - M.l - M.r);
