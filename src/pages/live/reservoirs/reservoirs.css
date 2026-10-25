@@ -21,6 +21,7 @@
 .rv .opt[hidden], .rv .pane[hidden], .rv .key[hidden], .rv .multiples[hidden], .rv .chart[hidden] { display: none; }
 .rv .ctl { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
 .rv .ctl .row { display: flex; align-items: center; gap: 10px; }
+.rv .ctl .row[hidden] { display: none; }
 .rv .ctl .lab { width: 38px; font-size: 12.5px; color: var(--muted); }
 .rv .ctl .tabs button { padding: 7px 12px; }
 .rv .key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin-bottom: 12px; align-items: center; }

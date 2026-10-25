@@ -41,14 +41,12 @@ export function mount(root, D) {
 <figure class="fig">
   <h2 class="fig-title"><span id="rv-title"></span><small id="rv-when"></small></h2>
   <p class="fig-sub" id="rv-sub"></p>
-  <div class="controls">
-    <div class="tabs" role="tablist" id="rv-a-tabs">
+  <div class="ctl">
+    <div class="row"><span class="lab">View</span><div class="tabs" role="tablist" id="rv-a-tabs">
       <button role="tab" data-p="a" class="on"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="1" y="6" width="5" height="7" fill="none" stroke="currentColor"/><rect x="8" y="1" width="5" height="12" fill="none" stroke="currentColor"/></svg>Today</button>
       <button role="tab" data-p="b"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 4H12M2 10H12" stroke="currentColor"/><circle cx="4" cy="4" r="2" fill="currentColor"/><circle cx="10" cy="10" r="2" fill="currentColor"/></svg>Against last year</button>
-    </div>
-    <div class="opt" id="rv-size">Size
-      <span class="grp"><button data-s="same" class="on">Same size</button><button data-s="cap">By capacity</button></span>
-    </div>
+    </div></div>
+    <div class="row" id="rv-size"><span class="lab">Size</span><div class="tabs"><button data-s="same" class="on">Same size</button><button data-s="cap">By capacity</button></div></div>
   </div>
   <div class="pane" id="rv-p-a">
     <div class="key">
