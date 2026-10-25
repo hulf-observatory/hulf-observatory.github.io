@@ -16,3 +16,6 @@ export const TOOLS_URL = trim(import.meta.env.VITE_TOOLS_URL || 'https://hyderab
 
 // Stories & datasets and the story pages, at /tools/ and /stories/ under the main address (since 24 Oct 2026)
 export const STORIES_URL = trim(import.meta.env.VITE_STORIES_URL || 'https://hyderabad.urbanobservatory.in/stories') + '/';
+
+// Live numbers computed on the observatory server (repo hulf-observatory/live-feed), served through the Cloudflare Tunnel
+export const LIVE_API = trim(import.meta.env.VITE_LIVE_API || 'https://api.urbanobservatory.in/live');

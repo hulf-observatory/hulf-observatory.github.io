@@ -10,6 +10,8 @@ import Disclaimer from './pages/Disclaimer';
 import ExternalRedirect from './components/ui/ExternalRedirect';
 import { MAPS_URL, DATA_URL, TOOLS_URL, STORIES_URL } from './lib/links';
 import NotFound from './pages/NotFound';
+import Live from './pages/live/Live';
+import LiveTheme from './pages/live/LiveTheme';
 
 const draftTheme = {
   token: {
@@ -65,6 +67,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/live" element={<Live />} />
+          <Route path="/live/:id" element={<LiveTheme />} />
           {/* the in-site Data Observatory page is retired; "Data sources" is the open-data site */}
           <Route path="/explore/data-observatory" element={<ExternalRedirect to={DATA_URL} />} />
           {/* the old spatial data portal is retired; old links go to the map viewer */}

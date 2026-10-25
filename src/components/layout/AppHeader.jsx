@@ -4,7 +4,8 @@ import Logo from './Logo';
 import { MAPS_URL, DATA_URL, TOOLS_URL, STORIES_URL } from '../../lib/links';
 
 // Slim header shared by the Observatory's pages (visual standard, 24 Oct 2026): a white bar with a hairline
-// under it. On the home page Layers, Tools and Stories are the big buttons, so the bar lists only Data sources and About.
+// under it. On the home page Layers, Tools and Stories are the big buttons, so the bar lists only Live, Data sources and
+// About. "Live" (the live page) carries a pulsing dot.
 export default function AppHeader() {
   // routes are also served as /about/ etc. (a file per route, so they answer 200); compare without the slash
   const pathname = useLocation().pathname.replace(/(.)\/$/, '$1');
@@ -30,6 +31,9 @@ export default function AppHeader() {
 
   const links = (
     <>
+      <Link to="/live" className="obs-live" aria-current={pathname.startsWith('/live') ? 'page' : undefined}>
+        <i className="obs-live-dot" aria-hidden="true" />Live
+      </Link>
       {!isHome && <a href={MAPS_URL + '/'} rel="noopener">Layers</a>}
       {!isHome && <a href={TOOLS_URL} rel="noopener">Tools</a>}
       {!isHome && <a href={STORIES_URL} rel="noopener">Stories</a>}

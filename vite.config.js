@@ -24,5 +24,5 @@ const routeCopies = (routes) => {
 // (https://hulf-observatory.github.io/site/), '/' at the apex domain.
 export default defineConfig({
   base: process.env.VITE_BASE || '/',
-  plugins: [react(), routeCopies(['about', 'disclaimer'])],
+  plugins: [react(), routeCopies(['about', 'disclaimer', 'live', ...['heat', 'humidity', 'heatindex', 'rain', 'wind', 'air', 'reservoirs', 'groundwater', 'tankers'].map((p) => `live/${p}`)])],
 });
