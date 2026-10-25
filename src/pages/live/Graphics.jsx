@@ -135,12 +135,13 @@ export function CategoryBar({ value, steps, colours, names, unit = '', label }) 
   );
 }
 
-// CPCB National AQI: categories, official colours
-export const AQI = { steps: [0, 50, 100, 200, 300, 400, 500], colours: ['#00B050', '#92D050', '#FFFF00', '#FF9900', '#FF0000', '#C00000'],
+// CPCB National AQI: categories, in CPCB's colours muted as on the Weather and air page (Teja, 25 Oct)
+export const AQI = { steps: [0, 50, 100, 200, 300, 400, 500], colours: ['#8FC9A0', '#C9E09C', '#F3E08C', '#F2B46E', '#D9665B', '#A84540'],
   names: ['Good', 'Satisfactory', 'Moderate', 'Poor', 'Very poor', 'Severe'] };
-// IMD's experimental heat index bands (°C): Green ≤ 35, Yellow 36–45, Orange 46–55, Red > 55, in IMD's colours
-export const HEAT_INDEX = { steps: [20, 35.5, 45.5, 55.5, 65], colours: ['#00B050', '#FFFF00', '#FF9900', '#FF0000'],
-  names: ['Green', 'Yellow', 'Orange', 'Red'] };
+// IMD's experimental heat index bands (°C): ≤ 35, 36–45, 46–55, > 55, named by IMD's warning level for their colours
+// (green, yellow, orange, red), the colours muted as on the Weather and air page
+export const HEAT_INDEX = { steps: [20, 35.5, 45.5, 55.5, 65], colours: ['#A9D5B4', '#F3E08C', '#F2B46E', '#D9665B'],
+  names: ['No warning', 'Be aware', 'Be prepared', 'Take action'] };
 
 // Wind: a grid of identical thin arrows pointing where the wind is going across HMDA (the speed-weighted
 // direction). Station-by-station arrows belong in the full view.
