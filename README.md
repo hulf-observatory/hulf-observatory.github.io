@@ -21,6 +21,12 @@ is `DESIGN-SYSTEM.md` in the observatory-work repo.
 The maps live in a separate app (the Spatial Data Repository viewer), the archive maps in
 the City Timeline app, the data catalogue on the open-data site; this site only links to them.
 
+**Live** (`/live/`, `src/pages/live/`): the cards, and an Explore page each for Reservoirs, Groundwater, Tankers and
+Weather and air. Each Explore page's `charts.js` draws plain SVG from a history file at
+`https://api.urbanobservatory.in/live/`, built by the private `live-feed` repo on the observatory server. Mocks for new
+pages go in `public/_mock-*.html` and are never committed. `index.html` also loads the site-wide visit counter
+(`api.urbanobservatory.in/visits.js`: no cookies, no IP addresses, counts internal only).
+
 ## Local development
 
 ```bash
