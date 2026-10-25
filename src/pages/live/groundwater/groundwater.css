@@ -74,6 +74,17 @@
 .gw .more svg { animation: gw-nudge 1.6s ease-in-out infinite; }
 @keyframes gw-nudge { 50% { transform: translateY(2px); } }
 @media (prefers-reduced-motion: reduce) { .gw .wave, .gw .more svg { animation: none; } }
+.gw .gw-toc { display: none; }
+.gw .blk { scroll-margin-top: 24px; }
+.gw .gw-about { scroll-margin-top: 24px; }
+@media (min-width: 1360px) {
+  .gw .gw-toc { display: flex; flex-direction: column; gap: 2px; position: fixed; top: 140px; left: max(24px, calc(50% - 480px - 220px)); width: 180px; z-index: 5; }
+  .gw .gw-toc p { margin: 0 0 8px; font: 900 11px/1.2 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .gw .gw-toc a { display: block; padding: 6px 0 6px 12px; border-left: 2px solid var(--border); font-size: 14px; line-height: 1.35; color: var(--text-2); text-decoration: none; }
+  .gw .gw-toc a:hover { color: var(--ink); border-left-color: var(--border-2); }
+  .gw .gw-toc a.on { color: var(--ink); font-weight: 700; border-left-color: var(--ink); }
+  .gw .more { display: none; }
+}
 .gw .gw-about { margin-top: 44px; }
 .gw .gw-about summary { cursor: pointer; font: 700 24px/1.25 var(--font-ui); color: var(--ink); margin-bottom: 10px; list-style-position: outside; }
 .gw .gw-about summary::marker { color: var(--muted); }
