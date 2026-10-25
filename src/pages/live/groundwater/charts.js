@@ -46,7 +46,7 @@ export function mount(root, D) {
     D.monthly.v.forEach((v, i) => { if (v != null) monthHMDA.push([`${y}-${String(m).padStart(2, '0')}`, v, D.monthly.n[i]]); m += 1; if (m > 12) { m = 1; y += 1; } }); }
 
   root.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><pattern id="gw-hatch" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="rgba(194,65,59,.6)" stroke-width="1.5"/></pattern></defs></svg>
-<h2 class="blk first">Groundwater today</h2>
+<h2 class="blk first">Depth today</h2>
 <figure class="fig">
   <h2 class="fig-title"><span id="gw-t1"></span><small id="gw-w1"></small></h2>
   <p class="fig-sub" id="gw-s1"></p>
@@ -125,7 +125,7 @@ export function mount(root, D) {
     });
   }
 
-  // ── groundwater today: the corporations as well shafts; change since last year and depth now, each as a map or as
+  // ── depth today: the corporations as well shafts; change since last year and depth now, each as a map or as
   //    every well side by side ──
   // readings that cannot be right are left out: deeper than 60 m, or a change of more than 20 m in a year (Teja, 25 Oct)
   const left = D.wells.filter((w) => w.odd);
