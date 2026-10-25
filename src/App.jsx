@@ -12,6 +12,7 @@ import { MAPS_URL, DATA_URL, TOOLS_URL, STORIES_URL } from './lib/links';
 import NotFound from './pages/NotFound';
 import Live from './pages/live/Live';
 import LiveTheme from './pages/live/LiveTheme';
+import Reservoirs from './pages/live/reservoirs/Reservoirs';
 
 const draftTheme = {
   token: {
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/live" element={<Live />} />
+          <Route path="/live/reservoirs" element={<Reservoirs />} />
           <Route path="/live/:id" element={<LiveTheme />} />
           {/* the in-site Data Observatory page is retired; "Data sources" is the open-data site */}
           <Route path="/explore/data-observatory" element={<ExternalRedirect to={DATA_URL} />} />

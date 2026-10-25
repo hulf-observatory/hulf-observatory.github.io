@@ -1,0 +1,92 @@
+/* The Reservoirs page (/live/reservoirs/). House tokens and the figure frame (DESIGN-SYSTEM §5), with the OWID-style
+   additions agreed for this page: tabs that change the chart and its title, View / Show rows, a source line with a
+   share button, a "More below" pill. The 960 px column and the white ground are the house defaults. */
+.rv { --tab-on: #E4EDF6; }
+.rv .rv-body { display: flex; flex-direction: column; }
+.rv #rv-blocks { display: contents; }
+.rv .lt-back { align-self: flex-start; }
+.rv .blk { margin: 44px 0 14px; font: 700 24px/1.25 var(--font-ui); color: var(--ink); }   /* the same space above every block */
+.rv .blk.first { margin-top: 20px; }
+.rv .fig { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 18px 22px 12px; min-width: 0; }
+.rv .fig-title { margin: 0; font: 700 20px/1.3 var(--font-ui); color: var(--ink); }
+.rv .fig-title small { font: 400 16px var(--font-ui); color: var(--muted); margin-left: 4px; white-space: nowrap; }
+.rv .fig-sub { margin: 2px 0 10px; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+.rv .controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.rv .tabs { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: var(--r-ctl); background: var(--surface); }
+.rv .tabs button, .rv .opt button { display: inline-flex; align-items: center; gap: 6px; font: 400 13.5px/1 var(--font-ui); padding: 8px 12px; border: 0; border-radius: 3px; background: none; color: var(--text-2); cursor: pointer; }
+.rv .tabs button:hover, .rv .opt button:hover { background: var(--surface-2); }
+.rv .tabs button.on, .rv .opt button.on { background: var(--tab-on); color: var(--ink); font-weight: 700; }
+.rv .tabs button:focus-visible, .rv .opt button:focus-visible, .rv .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.rv .opt { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.rv .opt .grp { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: var(--r-ctl); }
+.rv .opt[hidden], .rv .pane[hidden], .rv .key[hidden], .rv .multiples[hidden], .rv .chart[hidden] { display: none; }
+.rv .ctl { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.rv .ctl .row { display: flex; align-items: center; gap: 10px; }
+.rv .ctl .lab { width: 38px; font-size: 12.5px; color: var(--muted); }
+.rv .ctl .tabs button { padding: 7px 12px; }
+.rv .key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--muted); margin-bottom: 12px; align-items: center; }
+.rv .key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.rv .key .ln { width: 18px; height: 0; border-radius: 0; vertical-align: 3px; }
+.rv .note { margin: 10px 0 0; font-size: 12px; color: var(--muted); max-width: var(--measure); }
+.rv .note:empty { display: none; }
+/* storage today: every cell the same box; a smaller square sits in its bottom-left corner */
+.rv .squares { display: grid; grid-template-columns: repeat(3, max-content); justify-content: space-between; gap: 28px 10px; padding: 10px 0 4px; }
+.rv .squares .it { display: flex; flex-direction: column; gap: 8px; }
+.rv .squares .sqw { display: flex; align-items: flex-end; height: var(--side, 140px); width: var(--cell, 228px); }
+.rv .squares .cap { align-self: start; font-size: 13px; color: var(--muted); line-height: 1.45; white-space: nowrap; }
+.rv .squares .cap b { display: block; color: var(--ink); font-size: 14px; }
+.rv .squares svg text { font-family: var(--font-ui); }
+.rv .wave { animation: rv-drift var(--t) linear infinite; }
+.rv .wave.back { animation-direction: reverse; }
+@keyframes rv-drift { to { transform: translateX(calc(-1 * var(--wl))); } }
+.rv .db-row { display: grid; grid-template-columns: 130px 1fr 170px; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14.5px; }
+.rv .db-row .n { color: var(--text-2); }
+.rv .db-row .v { text-align: right; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.rv .db-row .v b { color: var(--ink); }
+/* charts */
+.rv .chart { position: relative; width: 100%; }
+.rv .chart svg { display: block; font-family: var(--font-ui); }
+.rv .chart .ax { font-size: 12px; fill: var(--muted); }
+.rv .chart .lbl { font-size: 12.5px; fill: var(--ink); }
+.rv .chart .lbl-muted { fill: var(--muted); }
+.rv .chart .halo { paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.rv .tip { position: absolute; top: 8px; background: var(--surface); border: 1px solid var(--border-2); border-radius: var(--r-ctl); padding: 8px 10px; font-size: 12.5px; color: var(--text-2); display: flex; flex-direction: column; gap: 3px; pointer-events: none; min-width: 150px; z-index: 2; }
+.rv .tip[hidden] { display: none; }
+.rv .tip i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+.rv .multiples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 20px; }
+.rv .mp-t { display: flex; justify-content: space-between; margin: 0 0 2px; font-size: 13.5px; color: var(--text-2); }
+.rv .mp-t span { font-weight: 700; color: var(--ink); }
+/* source line */
+.rv .foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); }
+.rv .foot p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--muted); }
+.rv .foot p b { color: var(--text-2); }
+.rv .foot a { color: var(--text-2); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 2px; }
+.rv .btn { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--r-ctl); background: var(--surface); color: var(--text-2); cursor: pointer; }
+.rv .btn.done { border-color: var(--ink); color: var(--ink); }
+/* scroll-down pill */
+.rv .more { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 20; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px;
+  font: 700 13.5px/1 var(--font-ui); color: var(--ink); background: var(--surface); border: 1px solid var(--border-2); border-radius: 18px; cursor: pointer; white-space: nowrap;
+  box-shadow: var(--shadow-float); transition: opacity .25s ease; }
+.rv .more span { font-weight: 400; color: var(--muted); }
+.rv .more.gone { opacity: 0; pointer-events: none; }
+.rv .more svg { animation: rv-nudge 1.6s ease-in-out infinite; }
+@keyframes rv-nudge { 50% { transform: translateY(2px); } }
+@media (prefers-reduced-motion: reduce) { .rv .wave, .rv .more svg { animation: none; } }
+.rv .rv-about { margin-top: 44px; }
+.rv .rv-about h2 { margin: 0 0 10px; font: 700 24px/1.25 var(--font-ui); }
+.rv .rv-about p { margin: 0 0 8px; font-size: 17px; line-height: 1.7; color: var(--text-2); max-width: var(--measure); }
+.rv .live-note { margin: 16px 0 0; font-size: 16px; color: var(--muted); }
+@media (max-width: 640px) {
+  .rv .fig { padding: 14px 12px 10px; }
+  .rv .fig-title { font-size: 17px; }
+  .rv .fig-title small { display: block; margin: 2px 0 0; font-size: 13px; }
+  .rv .squares { grid-template-columns: repeat(2, max-content); gap: 22px 10px; }
+  .rv .tabs { flex-wrap: wrap; }
+  .rv .tabs button, .rv .opt button { padding: 8px 10px; font-size: 13px; }
+  .rv .controls { gap: 8px; }
+  .rv .multiples { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+  .rv .foot p { font-size: 11.5px; }
+  .rv .blk, .rv .rv-about h2 { margin-top: 34px; font-size: 20px; }
+  .rv .db-row { grid-template-columns: 100px 1fr; }
+  .rv .db-row .v { grid-column: 1 / -1; text-align: left; }
+}
