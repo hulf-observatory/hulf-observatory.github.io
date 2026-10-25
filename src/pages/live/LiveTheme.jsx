@@ -4,7 +4,6 @@ import useDocumentTitle from '../../lib/useDocumentTitle';
 import NotFound from '../NotFound';
 import TimeChart from './TimeChart';
 import DotMap from './DotMap';
-import { describe, updated } from './Live';
 import { useLiveJson, THEMES, num } from './data';
 import './live.css';
 
@@ -43,7 +42,6 @@ export default function LiveTheme() {
   useEffect(() => { document.body.classList.add('is-live'); return () => document.body.classList.remove('is-live'); }, []);
   if (!page) return <NotFound />;
   const t = THEMES[id] || { colour: '#3F76B0' };
-  const d = card ? describe(card) : null;
   const name = page.name || ((s) => s.name);
   const stations = (detail.data?.stations || []).filter((s) => s[page.key] != null);
   const vals = stations.map((s) => s[page.key]);
@@ -57,22 +55,12 @@ export default function LiveTheme() {
     <main className="content-main content-main--lg live lt">
       <Link to="/live" className="lt-back">← Live</Link>
       {!card && <p className="live-note">{summary.error ? 'The live numbers could not be loaded.' : 'Loading…'}</p>}
-      {card && d && (
+      {card && (
         <>
           <div className="page-intro lt-intro">
             <span className="eyebrow-live">Live · HMDA</span>
             <h1>{card.title}</h1>
           </div>
-
-          <section className="live-card lt-head" aria-label="Now">
-            <div className="live-card-text">
-              <div className="live-value">{d.value}{d.unit && <span className="live-unit">{d.unit}</span>}</div>
-              <p className="live-line">{d.line}</p>
-              {d.compare && <p className="live-compare">{d.compare}</p>}
-              {!d.noDate && <p className="live-updated">{updated(d.asOf || card.as_of)}</p>}
-            </div>
-            <div className="live-card-graphic">{d.graphic && d.graphic(t.colour, d.compare || d.line)}</div>
-          </section>
 
           {card.trend?.points?.length > 1 && (
             <figure className="lt-fig">

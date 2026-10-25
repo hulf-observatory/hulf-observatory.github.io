@@ -84,7 +84,6 @@ body.is-live { background: var(--surface-2); }                 /* grey ground so
 .lt-back:hover { text-decoration-color: var(--ink); }
 .lt-intro .eyebrow-live { font: 900 11px/1.2 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .lt-intro h1 { margin: 4px 0 0; }
-.lt-head { min-height: 200px; }
 /* the house figure frame (§5): title (the finding), subtitle (measure · area · years), plot, source footer */
 .lt-fig { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 22px 24px; min-width: 0; }
 .lt-fig-title { margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--border); font: 700 18px/1.35 var(--font-ui); color: var(--ink); }
