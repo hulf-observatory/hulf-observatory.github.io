@@ -1,5 +1,5 @@
-// Station map for a full view: the HMDA outline and one dot per station coloured by its value (five equal steps,
-// a legend under the map). Wind stations get an arrow pointing where the wind is going. No basemap — plain SVG.
+// Station map for a full view: the HMDA outline and one dot per station coloured by its value, with the house legend
+// under it (an equal-step bar, limits under the joins, and a hatched No data box). Wind stations get an arrow pointing where the wind is going. No basemap — plain SVG.
 import { useEffect, useState } from 'react';
 
 const K = Math.cos((17.4 * Math.PI) / 180); // longitude is shorter at Hyderabad's latitude
@@ -24,16 +24,16 @@ export default function DotMap({ stations, value, ramp, steps, arrow, format, la
   const px = (lon) => ((lon - x0) / (x1 - x0)) * W;
   const py = (lat) => ((y1 - lat) / (y1 - y0)) * H;
   const colourOf = (v) => {
-    if (v == null) return '#D1D5DB';
+    if (v == null) return 'var(--border-2)';
     const i = steps.findIndex((s) => v <= s);
     return ramp[i === -1 ? ramp.length - 1 : i];
   };
   const shown = stations.filter((s) => s.lat != null && s.lon != null && value(s) != null);
   return (
-    <figure className="lt-map">
+    <div className="lt-map">
       <svg viewBox={`-8 -8 ${W + 16} ${H + 16}`} role="img" aria-label={label}>
         {rings.map((r, i) => (
-          <path key={i} d={`M${r.map((p) => `${px(p[0]).toFixed(1)},${py(p[1]).toFixed(1)}`).join(' L')}Z`} fill="#FAFAFB" stroke="#D1D5DB" strokeWidth="1" />
+          <path key={i} d={`M${r.map((p) => `${px(p[0]).toFixed(1)},${py(p[1]).toFixed(1)}`).join(' L')}Z`} fill="var(--band)" stroke="var(--border-2)" strokeWidth="1" />
         ))}
         {[...shown].sort((a, b) => value(a) - value(b)).map((s, i) => {
           const v = value(s); const c = colourOf(v);
@@ -50,11 +50,15 @@ export default function DotMap({ stations, value, ramp, steps, arrow, format, la
           );
         })}
       </svg>
-      <figcaption className="lt-legend">
-        {ramp.map((c, i) => (
-          <span key={c}><i style={{ background: c }} />{i === 0 ? `≤ ${format(steps[0])}` : i === ramp.length - 1 ? `> ${format(steps[i - 1])}` : `${format(steps[i - 1])}–${format(steps[i])}`}</span>
-        ))}
-      </figcaption>
-    </figure>
+      <div className="lt-legend" aria-hidden="true">
+        <div className="lt-legend-bar">
+          <div className="lt-legend-steps">{ramp.map((c) => <i key={c} style={{ background: c }} />)}</div>
+          <div className="lt-legend-ticks">
+            {steps.slice(0, ramp.length - 1).map((s, i) => <span key={i} style={{ left: `${((i + 1) / ramp.length) * 100}%` }}>{format(s)}</span>)}
+          </div>
+        </div>
+        <span className="lt-legend-nodata"><i />No data</span>
+      </div>
+    </div>
   );
 }

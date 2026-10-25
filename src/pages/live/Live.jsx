@@ -39,7 +39,7 @@ function Card({ c }) {
   return (
     <Link to={`/live/${c.id}`} className="live-card">
       <div className="live-card-text">
-        <span className="live-eyebrow">{c.title}</span>
+        <h2 className="live-title">{c.title}</h2>
         <div className="live-value">{value}{unit && <span className="live-unit">{unit}</span>}</div>
         <p className="live-line" title={line}>{line}</p>
         {compare && <p className="live-compare" title={compare}>{compare}</p>}

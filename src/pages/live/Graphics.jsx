@@ -170,7 +170,7 @@ export function DotDensity({ value, colour, label }) {
   return (
     <div className="lg-square" role="img" aria-label={label}>
       <div className="lg-dots10">
-        {Array.from({ length: 100 }, (_, i) => <i key={i} style={{ background: rankFromBottom(i) < on ? colour : '#C9DAEC' }} />)}
+        {Array.from({ length: 100 }, (_, i) => <i key={i} style={{ background: rankFromBottom(i) < on ? colour : '#B7CDE4' }} />)}
       </div>
     </div>
   );

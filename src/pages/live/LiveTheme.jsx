@@ -18,7 +18,8 @@ const PAGES = {
   humidity: { key: 'rh_pct', unit: '%', d: 0, ramp: BLUE, about: 'Relative humidity at the TGDPS automatic weather stations in HMDA, newest hourly reading; the card shows their median.', source: 'TGDPS' },
   heatindex: { key: 'heat_index_c', unit: '°C', d: 1, ramp: ORANGE, about: 'How hot it feels, from each station\'s temperature and humidity (the US National Weather Service heat index formula), banded on IMD\'s experimental heat index: Green up to 35 °C, Yellow 36–45, Orange 46–55, Red above 55.', source: 'TGDPS; formula: US NWS; bands: IMD', steps: [35, 45, 55, 1e9], colours: ['#00B050', '#FFFF00', '#FF9900', '#FF0000'] },
   air: { key: 'aqi', unit: 'AQI', d: 0, about: 'CPCB\'s National Air Quality Index at the 14 CPCB and TSPCB continuous monitors in HMDA: the highest sub-index of at least three pollutants (one of them PM10 or PM2.5), from 24-hour means (8-hour peaks for CO and ozone). The card shows the median of the stations.', source: 'CPCB / TSPCB via OAQ', steps: [50, 100, 200, 300, 400, 1e9], colours: ['#00B050', '#92D050', '#FFFF00', '#FF9900', '#FF0000', '#C00000'] },
-  wind: { key: 'speed_kmh', unit: 'km/h', d: 1, ramp: ['#9DBBDB', '#7FA6CE', '#5B8DC0', '#3F76B0', '#123F70'], arrow: 'from_deg', about: 'Wind at the air-quality monitors and Weather Union stations in HMDA, last two hours. Each arrow points where the wind is going; the card shows the median speed and the speed-weighted direction.', source: 'CPCB / TSPCB via OAQ; Weather Union' },
+  wind: { key: 'speed_kmh', unit: 'km/h', d: 1, ramp: BLUE.slice(1), arrow: 'from_deg',   // the palest step is too faint for an arrow
+ about: 'Wind at the air-quality monitors and Weather Union stations in HMDA, last two hours. Each arrow points where the wind is going; the card shows the median speed and the speed-weighted direction.', source: 'CPCB / TSPCB via OAQ; Weather Union' },
   rain: { key: 'rain_mm', unit: 'mm', d: 1, ramp: BLUE, about: 'The card\'s season total is IMD\'s district rainfall for the seven HMDA districts, averaged by each district\'s area inside HMDA. The map and list show today\'s rain day (from 08:30) at the TGDPS stations.', source: 'IMD Hydromet (district rainfall); TGDPS' },
   groundwater: { key: 'depth_m', unit: 'm', d: 1, ramp: BLUE, about: 'Depth to water below ground at the Telangana Ground Water Department and CGWB telemetry wells in HMDA (six-hourly, via the National Water Data Portal). The card compares the same wells with the same date last year.', source: 'Telangana Ground Water Dept; CGWB (NWDP)' },
   reservoirs: { key: 'pct_full', unit: '%', d: 0, nomap: true, about: 'Storage in the reservoirs that supply Hyderabad, from HMWSSB\'s daily report; the card is HMWSSB\'s total of the five city reservoirs. The usual range is the middle half of the same date in 2014 to last year.', source: 'HMWSSB' },
@@ -50,15 +51,21 @@ export default function LiveTheme() {
   const ramp = page.colours || page.ramp;
   const steps = page.steps || (vals.length ? equalSteps(vals) : [1e9]);
   const sorted = [...stations].sort((a, b) => b[page.key] - a[page.key]);
+  const unitWord = page.unit === 'AQI' ? 'AQI' : page.unit === '' ? 'bookings' : page.unit;
+  const sourceLine = `Source: ${page.source} · Hyderabad Urban Observatory`;
   return (
     <main className="content-main content-main--lg live lt">
       <Link to="/live" className="lt-back">← Live</Link>
       {!card && <p className="live-note">{summary.error ? 'The live numbers could not be loaded.' : 'Loading…'}</p>}
       {card && d && (
         <>
-          <section className="live-card lt-head">
+          <div className="page-intro lt-intro">
+            <span className="eyebrow-live">Live · HMDA</span>
+            <h1>{card.title}</h1>
+          </div>
+
+          <section className="live-card lt-head" aria-label="Now">
             <div className="live-card-text">
-              <h1 className="live-eyebrow">{card.title}</h1>
               <div className="live-value">{d.value}{d.unit && <span className="live-unit">{d.unit}</span>}</div>
               <p className="live-line">{d.line}</p>
               {d.compare && <p className="live-compare">{d.compare}</p>}
@@ -68,40 +75,44 @@ export default function LiveTheme() {
           </section>
 
           {card.trend?.points?.length > 1 && (
-            <section className="lt-block">
-              <h2 className="lt-h2">{trendTitle(id, card)}</h2>
+            <figure className="lt-fig">
+              <h2 className="lt-fig-title">{trendTitle(id, card)}</h2>
+              <p className="lt-fig-sub">{unitWord} · {AREA[id] || 'HMDA'} · {period(card.trend.points, !!t.monthly)}{card.trend.band_label ? ` · shaded: ${card.trend.band_label}` : ''}</p>
               <TimeChart points={card.trend.points} band={card.trend.band || []} colour={t.colour}
-                mark={t.mark === 'bars' ? 'bars' : 'line'} invert={!!t.invert} monthly={!!t.monthly} minSpan={t.minSpan || 0} unit={page.unit === 'AQI' ? '' : page.unit}
-                label={card.trend.label} />
-              <p className="lt-note">{card.trend.label}{card.trend.band_label ? ` · shaded: ${card.trend.band_label}` : ''}</p>
-            </section>
+                mark={t.mark === 'bars' ? 'bars' : 'line'} invert={!!t.invert} monthly={!!t.monthly} minSpan={t.minSpan || 0}
+                unit={page.unit === 'AQI' ? '' : page.unit} label={card.trend.label} />
+              <figcaption className="lt-fig-foot">{sourceLine}</figcaption>
+            </figure>
           )}
 
           <div className={`lt-grid${page.nomap ? ' is-nomap' : ''}`}>
             {!page.nomap && stations.length > 0 && (
-              <section className="lt-block">
-                <h2 className="lt-h2">Stations now</h2>
+              <figure className="lt-fig">
+                <h2 className="lt-fig-title">{card.title} at each station</h2>
+                <p className="lt-fig-sub">{unitWord} · {stations.length} stations in HMDA · {stationTime(detail.data)}</p>
                 <DotMap stations={stations} value={(s) => s[page.key]} ramp={ramp} steps={steps} arrow={page.arrow}
                   format={fmt} label={`${card.title} at ${stations.length} stations`} />
-              </section>
+                <figcaption className="lt-fig-foot">{sourceLine}</figcaption>
+              </figure>
             )}
             {stations.length > 0 && (
-              <section className="lt-block">
-                <h2 className="lt-h2">{page.nomap ? (id === 'tankers' ? 'By section' : 'By reservoir') : 'Highest to lowest'}</h2>
+              <figure className="lt-fig">
+                <h2 className="lt-fig-title">{page.nomap ? (id === 'tankers' ? 'Bookings by section' : 'Storage by reservoir') : 'Highest to lowest'}</h2>
+                <p className="lt-fig-sub">{unitWord} · {sorted.length > 30 ? `top 30 of ${sorted.length}` : `${sorted.length} ${id === 'tankers' ? 'sections' : id === 'reservoirs' ? 'reservoirs' : 'stations'}`}</p>
                 <ol className="lt-list">
                   {sorted.slice(0, 30).map((s, i) => (
                     <li key={i}><span>{name(s)}</span><b>{fmt(s[page.key])}</b></li>
                   ))}
                 </ol>
-                {sorted.length > 30 && <p className="lt-note">Top 30 of {sorted.length}.</p>}
-              </section>
+                <figcaption className="lt-fig-foot">{sourceLine}</figcaption>
+              </figure>
             )}
           </div>
 
-          <section className="lt-block lt-about">
-            <h2 className="lt-h2">About these numbers</h2>
-            <p>{page.about}</p>
-            <p className="lt-note">Source: {page.source}. Values as published, not checked; a station can be wrong or late.</p>
+          <section className="lt-fig lt-about">
+            <h2 className="lt-fig-title">About these numbers</h2>
+            <p style={{ marginTop: 12 }}>{page.about}</p>
+            <p className="live-note">Values as published, not checked; a station can be wrong or late.</p>
           </section>
         </>
       )}
@@ -109,11 +120,36 @@ export default function LiveTheme() {
   );
 }
 
-function trendTitle(id, card) {
-  if (id === 'tankers') return 'Bookings per month';
-  if (id === 'reservoirs') return 'City reservoirs, % full, last 12 months';
-  if (id === 'groundwater') return 'Median depth to water, last 12 months';
-  if (id === 'rain') return 'Daily rain, HMDA average of TGDPS stations';
-  if (id === 'air') return 'PM2.5, hourly median, last 7 days';
-  return `${card.title}, last 7 days`;
+// the area each trend covers
+const AREA = { rain: 'HMDA average of TGDPS stations', reservoirs: 'city reservoirs (HMWSSB)', tankers: 'HMWSSB area', groundwater: 'HMDA wells' };
+const MONS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// "21–25 Oct 2026", "Oct 2025–Oct 2026", "Jan 2022–Sep 2026"
+function period(points, monthly) {
+  const a = points[0][0]; const b = points[points.length - 1][0];
+  const [ya, ma, da] = a.slice(0, 10).split('-').map(Number); const [yb, mb, db] = b.slice(0, 10).split('-').map(Number);
+  if (monthly || (yb - ya) * 12 + mb - ma > 2) return `${MONS[ma - 1]} ${ya}–${MONS[mb - 1]} ${yb}`;
+  return ma === mb ? `${da}–${db} ${MONS[mb - 1]} ${yb}` : `${da} ${MONS[ma - 1]}–${db} ${MONS[mb - 1]} ${yb}`;
+}
+// when the station file was written, "25 Oct 2026, 1:00 pm"
+function stationTime(data) {
+  const a = data?.as_of; if (!a) return '';
+  if (a.length === 7) return `${MONS[Number(a.slice(5, 7)) - 1]} ${a.slice(0, 4)}`;
+  const [y, m, d] = a.slice(0, 10).split('-').map(Number);
+  if (a.length === 10) return `${d} ${MONS[m - 1]} ${y}`;
+  const hh = Number(a.slice(11, 13));
+  return `${d} ${MONS[m - 1]} ${y}, ${hh % 12 || 12}:${a.slice(14, 16)} ${hh < 12 ? 'am' : 'pm'}`;
+}
+
+function trendTitle(id) {
+  return {
+    heat: 'Temperature over the last 7 days, against the normal low and high',
+    humidity: 'Humidity over the last 7 days',
+    heatindex: 'How hot it felt over the last 7 days',
+    rain: 'Rain each day over the last 7 days',
+    wind: 'Wind speed over the last 7 days',
+    air: 'Fine particles (PM2.5) over the last 7 days',
+    reservoirs: 'City reservoirs over the last 12 months, against the usual range',
+    groundwater: 'Depth to water over the last 12 months',
+    tankers: 'Tanker bookings each month',
+  }[id];
 }
