@@ -313,16 +313,16 @@ function stationViews(view, p, k, { cols, edges, fmt, word, extraKey = '' }) {
 const NOW_ST = [['now', 'Now'], ['max', "Today's high"], ['min', "Today's low"]], RAIN_ST = [['today', 'Today'], ['month', 'This month'], ['season', 'Since 1 June']], POLS = [['aqi', 'AQI'], ['pm25', 'PM2.5'], ['pm10', 'PM10']];
 // show: the options of the Show row for each view that has one
 const SECTIONS = [
-  { id: 'temp', needsSD: ['s'], label: 'Temperature', src: 'tgdps', views: [['d', 'Today'], ['s', 'Trend'], ['n', 'From normal'], ['c', 'Calendar'], ['k', 'Day counts'], ['map', 'Map'], ['list', 'Stations']],
+  { id: 'temp', needsSD: ['s'], label: 'Temperature', src: 'tgdps', views: [['d', 'Today'], ['map', 'Map'], ['list', 'Stations'], ['s', 'Trend'], ['n', 'From normal'], ['c', 'Calendar'], ['k', 'Day counts']],
     show: { s: [['max', 'High'], ['min', 'Low'], ['mean', 'Average']], map: NOW_ST, list: NOW_ST } },
-  { id: 'hi', needsSD: ['s'], label: 'Heat index', src: 'tgdps', views: [['d', 'Today'], ['s', 'Trend'], ['c', 'Calendar'], ['map', 'Map'], ['list', 'Stations']],
+  { id: 'hi', needsSD: ['s'], label: 'Heat index', src: 'tgdps', views: [['d', 'Today'], ['map', 'Map'], ['list', 'Stations'], ['s', 'Trend'], ['c', 'Calendar']],
     show: { map: [['now', 'Now'], ['max', "Today's peak"]], list: [['now', 'Now'], ['max', "Today's peak"]] } },
-  { id: 'rh', needsSD: ['s'], label: 'Humidity', src: 'tgdps', views: [['d', 'Today'], ['s', 'Trend'], ['c', 'Calendar'], ['map', 'Map'], ['list', 'Stations']] },
-  { id: 'rain', needsSD: ['m'], label: 'Rain', src: 'tgdps', views: [['map', 'Map'], ['d', 'Each day'], ['m', 'Each month'], ['n', 'From normal'], ['c', 'Calendar'], ['list', 'Stations']],
+  { id: 'rh', needsSD: ['s'], label: 'Humidity', src: 'tgdps', views: [['d', 'Today'], ['map', 'Map'], ['list', 'Stations'], ['s', 'Trend'], ['c', 'Calendar']] },
+  { id: 'rain', needsSD: ['m'], label: 'Rain', src: 'tgdps', views: [['map', 'Map'], ['list', 'Stations'], ['d', 'Each day'], ['m', 'Each month'], ['n', 'From normal'], ['c', 'Calendar']],
     show: { map: RAIN_ST, list: RAIN_ST } },
-  { id: 'air', label: 'Air quality', src: 'air', views: [['map', 'Map'], ['d', 'Each day'], ['n', 'From usual'], ['c', 'Calendar'], ['y', 'Days per year'], ['list', 'Monitors']],
+  { id: 'air', label: 'Air quality', src: 'air', views: [['map', 'Map'], ['list', 'Monitors'], ['d', 'Each day'], ['n', 'From usual'], ['c', 'Calendar'], ['y', 'Days per year']],
     show: { d: POLS, n: POLS } },
-  { id: 'wind', label: 'Wind', src: 'wind', views: [['r', 'Direction'], ['s', 'Trend'], ['list', 'Stations']],
+  { id: 'wind', label: 'Wind', src: 'wind', views: [['r', 'Direction'], ['list', 'Stations'], ['s', 'Trend']],
     show: { r: [['day', 'Last 24 hours'], ['month', 'This month'], ['since', 'Since April']] } },
 ];
 root.innerHTML = SECTIONS.map((S, i) => `<h2 class="blk${i ? '' : ' first'}" id="s-${S.id}">${S.label}</h2>
