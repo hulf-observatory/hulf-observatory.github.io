@@ -5,6 +5,9 @@ const trim = (u) => u.replace(/\/$/, '');
 // Spatial Data Repository (map viewer)
 export const MAPS_URL = trim(import.meta.env.VITE_MAPS_URL || 'https://hyderabad.urbanobservatory.in/maps');
 
+// Accessibility Atlas (walking access), at /access/ since 7 Nov 2026 (repo hulf-observatory/access)
+export const ACCESS_URL = trim(import.meta.env.VITE_ACCESS_URL || 'https://hyderabad.urbanobservatory.in/access') + '/';
+
 // City Timeline (archive maps side by side); keeps its trailing slash: it is linked as-is
 export const TIMELINE_URL = trim(import.meta.env.VITE_TIMELINE_URL || 'https://hyderabad.urbanobservatory.in/timeline') + '/';
 
