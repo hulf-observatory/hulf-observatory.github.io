@@ -490,14 +490,15 @@ a {
     width: auto;
   }
   .home-hint {
-    position: fixed; left: 16px; right: 16px; bottom: 100px; z-index: 20;
+    position: fixed; left: 16px; right: 16px; bottom: 150px; z-index: 20;   /* above three rows of buttons */
   }
   .home-credit {
     position: fixed; left: 16px; right: 16px; bottom: 10px; z-index: 20; font-size: 9px; margin: 0;
   }
   .home-actions { bottom: 42px; }
   .home-action { flex: 1; padding: 11px 12px; font-size: 13px; }
-  .home-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }   /* four buttons: two rows on phones */
+  .home-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }   /* two per row on phones */
+  .home-action:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* five buttons: the last (Contribute) takes a full row */
 }
 
 /* burger (home page, mobile only) */

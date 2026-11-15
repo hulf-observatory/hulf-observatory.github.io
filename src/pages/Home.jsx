@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MAPS_URL, TOOLS_URL, STORIES_URL } from '../lib/links';
+import { MAPS_URL, TOOLS_URL, STORIES_URL, CONTRIBUTE_URL } from '../lib/links';
 import useDocumentTitle from '../lib/useDocumentTitle';
 
 // the map viewer, the tools and the stories are each their own site; Live is a page of this one
@@ -8,6 +8,7 @@ const ACTIONS = [
   { label: 'Layers', href: MAPS_URL + '/' },
   { label: 'Tools', href: TOOLS_URL },
   { label: 'Stories', href: STORIES_URL },
+  { label: 'Contribute', href: CONTRIBUTE_URL },
 ];
 
 const ArrowIcon = () => (
